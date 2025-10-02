@@ -3,6 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import Button from "../../../components/ui/Button";
+import AuthLoginButton from "./AuthLoginButton";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -34,7 +35,7 @@ export default function LoginPage() {
             className='w-full rounded-lg border p-3'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button>Login</Button>
+          <AuthLoginButton />
         </form>
       </div>
     </div>

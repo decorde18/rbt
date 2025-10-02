@@ -1,18 +1,12 @@
 "use client";
 import styled from "styled-components";
-import {
-  User,
-  FileText,
-  BarChart3,
-  Calendar,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import AuthLogoutButton from "@/app/auth/logout/AuthLogoutButton";
+import { navItems } from "@/utils/config";
+import Link from "next/link";
 
 const Sidebar = styled.aside`
   position: fixed;
@@ -153,14 +147,6 @@ function NavBar() {
     setMounted(true);
   }, []);
 
-  const navItems = [
-    { id: "/dashboard", label: "Dashboard", icon: BarChart3 },
-    { id: "/forms", label: "Forms", icon: FileText },
-    { id: "/clients", label: "Clients", icon: User },
-    { id: "/calendar", label: "Calendar", icon: Calendar },
-    { id: "/settings", label: "Settings", icon: Settings },
-  ];
-
   if (!user) return <p>Loading...</p>;
   if (!mounted) return null;
 
@@ -193,10 +179,25 @@ function NavBar() {
             <NavItem
               key={item.id}
               $active={pathname === item.id}
-              onClick={() => router.push(item.id)}
+              onClick={() =>
+                item.link
+                  ? window.open(item.link, "_blank")
+                  : router.push(item.id)
+              }
             >
               <item.icon size={20} />
               {item.label}
+              {/* {item.link ? (
+                <Link
+                  href={item.link}
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                item.label
+              )} */}
             </NavItem>
           ))}
         </Navigation>
@@ -213,6 +214,7 @@ function NavBar() {
             <LogOut size={20} />
             Logout
           </NavItem>
+          <AuthLogoutButton />
         </div>
       </Sidebar>
     </>

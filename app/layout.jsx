@@ -1,7 +1,6 @@
 // app/layout.js
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
-
 import { Providers } from "@/contexts/Providers";
 
 const geistSans = Geist({
