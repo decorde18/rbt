@@ -3,10 +3,10 @@
 
 export const theme = {
   colors: {
-    primary: "#091f3a",
-    secondary: "#274870",
-    accent: "#fdd835",
-    background: "#f8fafc",
+    primary: "#1E3A8A",
+    secondary: "#0D9488",
+    accent: "#F97316",
+    background: "#F3F4F6",
     surface: "#ffffff",
     text: "#1a202c",
     textLabel: "#577190",

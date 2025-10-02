@@ -1,4 +1,6 @@
 import { createGlobalStyle } from "styled-components";
+// import "swiper/css";
+// import "swiper/css/navigation";
 
 export const GlobalStyles = createGlobalStyle`
   *, *::before, *::after {
