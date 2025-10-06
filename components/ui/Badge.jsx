@@ -7,7 +7,7 @@
 // <Badge variant="danger" rounded="full">3</Badge>
 //
 import { cn } from "@/lib/utils";
-import { badgeVariants, badgeDefaults } from "@/utils/componentConfig";
+import { badgeVariants, badgeDefaults } from "@/lib/componentConfig";
 
 const Badge = ({
   variant = badgeDefaults.variant,

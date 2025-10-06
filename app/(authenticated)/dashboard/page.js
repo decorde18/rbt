@@ -6,7 +6,7 @@ import Welcome from "./Welcome";
 import StatsCard from "@/components/common/StatsCard";
 import FormCard from "@/components/common/FormCard";
 import { theme } from "@/styles/theme";
-import { DASHBOARD_CARDS, DASHBOARD_STATS } from "@/utils/config";
+import { DASHBOARD_CARDS, DASHBOARD_STATS } from "@/lib/config";
 import { useRouter } from "next/navigation";
 
 const Dashboard = () => {

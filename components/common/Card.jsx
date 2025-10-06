@@ -13,7 +13,7 @@
 }
 
 import { cn } from "@/lib/utils";
-import { cardVariants, cardDefaults } from "@/utils/componentConfig";
+import { cardVariants, cardDefaults } from "@/lib/componentConfig";
 
 const Card = ({
   variant = cardDefaults.variant,

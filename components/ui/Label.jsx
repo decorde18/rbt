@@ -8,7 +8,7 @@
 
 import { cn } from "@/lib/utils";
 import { theme } from "@/styles/theme";
-import { labelVariants, labelDefaults } from "@/utils/componentConfig";
+import { labelVariants, labelDefaults } from "@/lib/componentConfig";
 
 const Label = ({
   size = labelDefaults.size,

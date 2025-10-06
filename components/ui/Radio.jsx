@@ -6,7 +6,7 @@
 // <Radio name="option" value="2" label="Option 2" variant="success" size="lg" />
 
 import { cn } from "@/lib/utils";
-import { radioVariants, radioDefaults } from "@/utils/componentConfig";
+import { radioVariants, radioDefaults } from "@/lib/componentConfig";
 
 const Radio = ({
   variant = radioDefaults.variant,

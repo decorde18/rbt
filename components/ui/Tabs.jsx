@@ -16,7 +16,7 @@
 // />;
 
 import { cn } from "@/lib/utils";
-import { tabsVariants, tabsDefaults } from "@/utils/componentConfig";
+import { tabsVariants, tabsDefaults } from "@/lib/componentConfig";
 import { useState } from "react";
 
 const Tabs = ({ defaultTab = 0, tabs = [], className, onChange }) => {

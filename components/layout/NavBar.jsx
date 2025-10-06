@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthLogoutButton from "@/app/auth/logout/AuthLogoutButton";
-import { navItems } from "@/utils/config";
+import { navItems } from "@/lib/config";
 import Link from "next/link";
 
 const Sidebar = styled.aside`

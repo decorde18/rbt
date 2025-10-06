@@ -20,7 +20,7 @@
 // </Modal>
 
 import { cn } from "@/lib/utils";
-import { modalVariants, modalDefaults } from "@/utils/componentConfig";
+import { modalVariants, modalDefaults } from "@/lib/componentConfig";
 import { useEffect } from "react";
 
 const Modal = ({

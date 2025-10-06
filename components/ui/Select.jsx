@@ -1,3 +1,4 @@
+"use client";
 // ==========================================
 // FILE 6: components/ui/Select.jsx (EXAMPLE)
 // ==========================================
@@ -8,27 +9,47 @@
 // </Select>
 // <Select variant="error" size="lg">...</Select>
 import { cn } from "@/lib/utils";
-import { selectVariants, selectDefaults } from "@/utils/componentConfig";
+import { selectVariants, selectDefaults } from "@/lib/componentConfig";
+import { useState } from "react";
 
 const Select = ({
   variant = selectDefaults.variant,
   size = selectDefaults.size,
-  rounded = selectDefaults.rounded,
   className,
   children,
+  disabled,
   ...props
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const variantStyles = selectVariants.variant[variant];
+
+  const baseStyles = {
+    backgroundColor: disabled
+      ? selectDefaults.disabledBg
+      : selectDefaults.bgColor,
+    borderColor: isFocused
+      ? variantStyles.focusBorder
+      : variantStyles.borderColor,
+    borderRadius: selectDefaults.borderRadius,
+    fontSize: selectDefaults.fontSize[size],
+    paddingRight: "2.5rem",
+    ...(isFocused && {
+      boxShadow: `0 0 0 2px ${variantStyles.focusRing}40`,
+    }),
+  };
+
   return (
     <div className='relative'>
       <select
         className={cn(
           selectDefaults.base,
-          selectVariants.variant[variant],
           selectVariants.size[size],
-          selectVariants.rounded[rounded],
-          "pr-10", // Space for dropdown arrow
           className
         )}
+        style={baseStyles}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        disabled={disabled}
         {...props}
       >
         {children}

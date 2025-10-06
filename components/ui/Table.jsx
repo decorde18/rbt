@@ -25,7 +25,7 @@
 // />
 
 import { cn } from "@/lib/utils";
-import { tableDefaults, tableVariants } from "@/utils/componentConfig";
+import { tableDefaults, tableVariants } from "@/lib/componentConfig";
 import { useState } from "react";
 
 const Table = ({

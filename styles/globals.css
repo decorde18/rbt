@@ -12,18 +12,30 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  flex: 1 1 0%;
-  justify-content: space-between;
+  overflow: hidden; /* Prevent layout from expanding */
 }
+
 .main-body {
   display: flex;
   flex: 1;
+  min-height: 0; /* Allow flex item to shrink below content size */
+  overflow: hidden; /* Prevent expansion */
 }
+
 .main-content {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0; /* Allow flex item to shrink below content size */
+  overflow: hidden; /* Prevent expansion */
 }
+
+.main-content > *:last-child {
+  flex: 1;
+  overflow-y: auto; /* Make children scrollable */
+  min-height: 0;
+}
+
 /* Swiper Navigation Arrow Styling */
 .sbt-swiper .swiper-button-next,
 .sbt-swiper .swiper-button-prev {
@@ -39,10 +51,12 @@
 .sbt-swiper .swiper-button-prev:after {
   font-size: 20px;
 }
+
 .swiper-slide {
   filter: brightness(0.85);
   transition: filter 0.3s ease;
 }
+
 .swiper-slide-active {
   filter: brightness(1);
 }
