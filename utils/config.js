@@ -20,8 +20,8 @@ import {
   CalendarDays,
 } from "lucide-react";
 
-import { theme } from "./configCss";
 import { BacbIcon } from "@/components/icons/BacbIcon";
+import { theme } from "@/styles/theme";
 
 export const navItems = [
   { id: "/dashboard", label: "Dashboard", icon: BarChart3 },
@@ -98,6 +98,7 @@ export const DASHBOARD_CARDS = [
     title: "Initial Intake Assessment",
     description:
       "Collect essential background and contact information from new clients.",
+    link: null,
     icon: User,
     iconColor: theme.colors.secondary || "#274870",
     clientCount: 12,
@@ -108,6 +109,7 @@ export const DASHBOARD_CARDS = [
     title: "Weekly Progress Check-in",
     description:
       "A quick form to track weekly mood, goals, and obstacles encountered.",
+    link: null,
     icon: CheckSquare,
     iconColor: theme.colors.info || "#06b6d4",
     clientCount: 8,
@@ -118,6 +120,7 @@ export const DASHBOARD_CARDS = [
     title: "Financial Health Questionnaire",
     description:
       "In-depth questions about client assets, liabilities, and budgeting habits.",
+    link: null,
     icon: BarChart3,
     iconColor: theme.colors.accent || "#fdd835",
     clientCount: 5,
@@ -130,6 +133,7 @@ export const DASHBOARD_CARDS = [
     title: "Data Collection",
     description:
       "Track and log client data across sessions, including behavior frequency, intensity, and duration.",
+    link: "/data",
     icon: ClipboardList,
     iconColor: theme.colors.info || "#06b6d4",
     clientCount: 10,
@@ -140,6 +144,7 @@ export const DASHBOARD_CARDS = [
     title: "Session Notes",
     description:
       "Record detailed notes for each session, including objectives, progress, and follow-up actions.",
+    link: "/notes",
     icon: FileText,
     iconColor: theme.colors.secondary || "#274870",
     clientCount: 5, // number of clients with notes this week
@@ -150,6 +155,7 @@ export const DASHBOARD_CARDS = [
     title: "Assessments",
     description:
       "Conduct and review assessments to evaluate progress, set baselines, and determine goals.",
+    link: "/assessments",
     icon: FileSearch,
     iconColor: theme.colors.warning || "#f59e0b",
     clientCount: 7,
@@ -160,6 +166,7 @@ export const DASHBOARD_CARDS = [
     title: "Skill Acquisition",
     description:
       "Plan, track, and measure progress on skill-building programs tailored to each client.",
+    link: "/training",
     icon: GraduationCap,
     iconColor: theme.colors.success || "#10b981",
     clientCount: 9,
@@ -170,6 +177,7 @@ export const DASHBOARD_CARDS = [
     title: "Procedural Fidelity",
     description:
       "Ensure staff follow intervention procedures correctly to maintain treatment integrity.",
+    link: "/pf",
     icon: ShieldCheck,
     iconColor: theme.colors.purple || "#8b5cf6",
     clientCount: 4,
@@ -180,6 +188,7 @@ export const DASHBOARD_CARDS = [
     title: "Intraobserver Agreement",
     description:
       "Measure consistency in data recording across observers to ensure reliability.",
+    link: "/ia",
     icon: Users,
     iconColor: theme.colors.accent || "#fdd835",
     clientCount: 6,
@@ -191,6 +200,7 @@ export const DASHBOARD_CARDS = [
     title: "Staff Training",
     description:
       "Track staff training sessions, competencies, and procedural integrity checks.",
+    link: null,
     icon: BookOpen,
     iconColor: theme.colors.purple || "#8b5cf6",
     clientCount: 0,
@@ -201,6 +211,7 @@ export const DASHBOARD_CARDS = [
     title: "Behavior Incidents",
     description:
       "Log incidents, triggers, responses, and outcomes for behavior tracking and analysis.",
+    link: null,
     icon: AlertTriangle,
     iconColor: theme.colors.error || "#ef4444",
     clientCount: 2,
@@ -211,6 +222,7 @@ export const DASHBOARD_CARDS = [
     title: "Treatment Plan Review",
     description:
       "Review, update, and document treatment plans in compliance with requirements.",
+    link: null,
     icon: ClipboardCheck,
     iconColor: theme.colors.warning || "#f59e0b",
     clientCount: 3,
@@ -221,6 +233,7 @@ export const DASHBOARD_CARDS = [
     title: "Parent/Teacher Feedback",
     description:
       "Gather feedback from parents or teachers to support treatment planning and generalization.",
+    link: null,
     icon: MessageSquare,
     iconColor: theme.colors.info || "#06b6d4",
     clientCount: 6,

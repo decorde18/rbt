@@ -1,15 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Swiper Core Styles */
+@import "swiper/css";
+@import "swiper/css/navigation";
 
 .layout {
-  width: 100%;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  flex: 1 1 0%; /* flex-1 expands to flex-grow: 1, flex-shrink: 1, flex-basis: 0% */
+  flex: 1 1 0%;
   justify-content: space-between;
 }
 .main-body {
@@ -20,4 +23,26 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+/* Swiper Navigation Arrow Styling */
+.sbt-swiper .swiper-button-next,
+.sbt-swiper .swiper-button-prev {
+  color: #091f3a;
+  background: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sbt-swiper .swiper-button-next:after,
+.sbt-swiper .swiper-button-prev:after {
+  font-size: 20px;
+}
+.swiper-slide {
+  filter: brightness(0.85);
+  transition: filter 0.3s ease;
+}
+.swiper-slide-active {
+  filter: brightness(1);
 }

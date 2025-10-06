@@ -21,7 +21,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <link rel='icon' type='image/png' href='/favicon.png' />
+      <head>
+        <link rel='icon' type='image/png' href='/favicon.png' />
+      </head>
 
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>{children}</Providers>

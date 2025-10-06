@@ -14,6 +14,7 @@ const FormCard = ({
 }) => {
   return (
     <div
+      onClick={onClick}
       className='bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group animate-scale-in border border-gray-100'
       // onClick={onClick}
       style={{ animationDelay: delay }}

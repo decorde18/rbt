@@ -1,15 +1,20 @@
 // Dashboard/index.jsx
 
+"use client";
+
 import Welcome from "./Welcome";
 import StatsCard from "@/components/common/StatsCard";
 import FormCard from "@/components/common/FormCard";
 import { theme } from "@/styles/theme";
 import { DASHBOARD_CARDS, DASHBOARD_STATS } from "@/utils/config";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
-  const handleFormClick = (formId) => {
-    console.log("Opening form:", formId);
-    // Navigate or open form logic here
+  const router = useRouter();
+
+  const handleFormClick = (link) => {
+    console.log(link);
+    router.push(link);
   };
 
   return (
@@ -46,7 +51,7 @@ const Dashboard = () => {
             iconColor={form.iconColor}
             clientCount={form.clientCount}
             lastUsed={form.lastUsed}
-            onClick={() => handleFormClick(form.id)}
+            onClick={() => handleFormClick(form.link)}
             delay={`${(index + 1) * 0.15}s`}
           />
         ))}
