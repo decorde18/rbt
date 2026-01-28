@@ -49,12 +49,16 @@ const Modal = ({
 
   return (
     <div
-      className={modalDefaults.overlay}
+      className='fixed inset-0 z-50 flex items-center justify-center'
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backdropFilter: "blur(4px)",
+      }}
       onClick={() => closeOnOverlayClick && onClose()}
     >
       <div
         className={cn(
-          modalDefaults.container,
+          "relative bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto",
           modalVariants.size[size],
           className
         )}

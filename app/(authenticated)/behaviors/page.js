@@ -24,23 +24,23 @@ import {
 } from "@/lib/styled";
 import { getColumnsWithActions } from "@/lib/schemas/alternateColumnSchemas";
 import {
-  clientTableColumns,
-  clientValidationSchema,
-} from "@/lib/schemas/clientSchemas";
+  behaviorTableColumns,
+  behaviorValidationSchema,
+} from "@/lib/schemas/behaviorSchemas";
 import { useRouter } from "next/navigation";
 
-export default function ClientsPage() {
+export default function BehaviorsPage() {
   const router = useRouter();
-  const [clients, setClients] = useState([]);
+  const [behaviors, setBehaviors] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [editingClient, setEditingClient] = useState(null);
+  const [editingBehavior, setEditingBehavior] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Load clients from IndexedDB on mount
+  // Load behaviors from IndexedDB on mount
   useEffect(() => {
-    loadClients();
+    loadBehaviors();
   }, []);
 
   // Auto-dismiss success messages
@@ -51,22 +51,22 @@ export default function ClientsPage() {
     }
   }, [successMessage]);
 
-  const loadClients = async () => {
+  const loadBehaviors = async () => {
     try {
       setLoading(true);
       setError(null);
-      const allClients = await db.clients.toArray();
-      setClients(allClients);
+      const allBehaviors = await db.behaviorDefinitions.toArray();
+      setBehaviors(allBehaviors);
     } catch (err) {
-      setError("Failed to load clients. Please refresh the page.");
-      console.error("Error loading clients:", err);
+      setError("Failed to load behaviors. Please refresh the page.");
+      console.error("Error loading behaviors:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const closeForm = () => {
-    setEditingClient(null);
+    setEditingBehavior(null);
     setIsOpen(false);
   };
 
@@ -74,37 +74,31 @@ export default function ClientsPage() {
     try {
       setError(null);
 
-      // Convert grade to number and validate
-      const clientData = {
-        ...data,
-        grade: parseInt(data.grade, 10),
-      };
-
-      if (editingClient) {
-        // Update existing client
-        await db.clients.update(editingClient.id, clientData);
-        setSuccessMessage("Client updated successfully!");
+      if (editingBehavior) {
+        // Update existing behavior
+        await db.behaviorDefinitions.update(editingBehavior.id, data);
+        setSuccessMessage("Behavior updated successfully!");
       } else {
-        // Add new client
-        await db.clients.add(clientData);
-        setSuccessMessage("Client added successfully!");
+        // Add new behavior
+        await db.behaviorDefinitions.add(data);
+        setSuccessMessage("Behavior added successfully!");
       }
 
-      // Reload clients from DB
-      await loadClients();
+      // Reload behaviors from DB
+      await loadBehaviors();
       closeForm();
     } catch (err) {
       setError(
         `Failed to ${
-          editingClient ? "update" : "add"
-        } client. Please try again.`
+          editingBehavior ? "update" : "add"
+        } behavior. Please try again.`
       );
-      console.error("Error saving client:", err);
+      console.error("Error saving behavior:", err);
     }
   };
 
   const handleEdit = (row) => {
-    setEditingClient(row);
+    setEditingBehavior(row);
     setIsOpen(true);
   };
 
@@ -119,20 +113,20 @@ export default function ClientsPage() {
 
     try {
       setError(null);
-      await db.clients.delete(row.id);
-      setSuccessMessage("Client deleted successfully!");
-      await loadClients();
+      await db.behaviorDefinitions.delete(row.id);
+      setSuccessMessage("Behavior deleted successfully!");
+      await loadBehaviors();
     } catch (err) {
-      setError("Failed to delete client. Please try again.");
-      console.error("Error deleting client:", err);
+      setError("Failed to delete behavior. Please try again.");
+      console.error("Error deleting behavior:", err);
     }
   };
   const handleRowClick = (row) => {
-    router.push(`/clients/${row.id}`);
+    router.push(`/behaviors/${row.id}`);
   };
   // Get table columns with action handlers
   const tableColumns = [
-    ...clientTableColumns,
+    ...behaviorTableColumns,
     ...getColumnsWithActions(handleEdit, handleDelete),
   ];
 
@@ -141,7 +135,7 @@ export default function ClientsPage() {
       <PageContainer>
         <Card>
           <p style={{ textAlign: "center", color: "#6b7280" }}>
-            Loading clients...
+            Loading behaviors...
           </p>
         </Card>
       </PageContainer>
@@ -152,8 +146,8 @@ export default function ClientsPage() {
     <PageContainer>
       <Card>
         <CardHeader>
-          <CardTitle>Client List</CardTitle>
-          <Button onClick={() => setIsOpen(true)}>Add Client</Button>
+          <CardTitle>Behavior List</CardTitle>
+          <Button onClick={() => setIsOpen(true)}>Add Behavior</Button>
         </CardHeader>
 
         {/* Success Message */}
@@ -163,17 +157,17 @@ export default function ClientsPage() {
         {error && <Alert variant='error'>{error}</Alert>}
 
         {/* Empty State */}
-        {clients.length === 0 ? (
+        {behaviors.length === 0 ? (
           <EmptyState>
-            <EmptyStateTitle>No clients yet</EmptyStateTitle>
+            <EmptyStateTitle>No behaviors yet</EmptyStateTitle>
             <EmptyStateDescription>
-              Click &quot;Add Client&quot; to get started
+              Click &quot;Add Behavior&quot; to get started
             </EmptyStateDescription>
           </EmptyState>
         ) : (
           <Table
             columns={tableColumns}
-            data={clients}
+            data={behaviors}
             striped
             sortable
             onRowClick={handleRowClick}
@@ -185,19 +179,19 @@ export default function ClientsPage() {
         <Modal
           isOpen={isOpen}
           onClose={closeForm}
-          title={editingClient ? "Edit Client" : "Add A Client"}
+          title={editingBehavior ? "Edit Behavior" : "Add A Behavior"}
           size='md'
         >
           <Form
             onSubmit={onSubmit}
-            validationSchema={clientValidationSchema}
+            validationSchema={behaviorValidationSchema}
             spacing='normal'
-            initialValues={editingClient || {}}
+            initialValues={editingBehavior || {}}
           >
             {({ values, handleChange, isSubmitting }) => (
               <>
                 <Grid gap='1rem'>
-                  {clientTableColumns.map((column) => (
+                  {behaviorTableColumns.map((column) => (
                     <GridColumn key={column.key} span={column.formCol || 12}>
                       <FormField
                         htmlFor={column.key}
@@ -228,9 +222,9 @@ export default function ClientsPage() {
                   >
                     {isSubmitting
                       ? "Saving..."
-                      : editingClient
-                      ? "Update Client"
-                      : "Save Client"}
+                      : editingBehavior
+                      ? "Update Behavior"
+                      : "Save Behavior"}
                   </Button>
                   <Button type='button' variant='neutral' onClick={closeForm}>
                     Cancel

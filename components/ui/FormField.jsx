@@ -1,10 +1,11 @@
+"use client";
 // ============================================
 // components/ui/FormField.jsx
 // ============================================
 // USAGE:
 // <FormField
 //   label="Email Address"
-//   name="email"
+//   htmlFor="email"
 //   required
 //   error={errors.email}
 //   helperText="We'll never share your email"
@@ -12,55 +13,47 @@
 //   <Input name="email" />
 // </FormField>
 
-import { cn } from "@/lib/utils";
-import { formFieldDefaults } from "@/lib/componentConfig";
-import Label from "./Label";
+import styled from "styled-components";
+import { FormGroup, FormLabel } from "@/lib/styled";
+
+const HelperText = styled.p`
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+`;
+
+const ErrorText = styled.p`
+  font-size: 0.875rem;
+  color: #ef4444;
+  font-weight: 500;
+  margin: 0;
+`;
 
 const FormField = ({
   label,
-  name,
+  htmlFor,
   error,
   helperText,
   required,
   children,
   className,
-  labelSize,
   ...props
 }) => {
   return (
-    <div className={cn(formFieldDefaults.wrapper, className)} {...props}>
+    <FormGroup className={className} {...props}>
       {label && (
-        <Label htmlFor={name} required={required} size={labelSize}>
+        <FormLabel htmlFor={htmlFor} required={required}>
           {label}
-        </Label>
+        </FormLabel>
       )}
 
       {children}
 
-      {helperText && !error && (
-        <p
-          className='text-sm'
-          style={{
-            color: formFieldDefaults.helperTextColor,
-            fontSize: formFieldDefaults.helperTextSize,
-          }}
-        >
-          {helperText}
-        </p>
-      )}
+      {helperText && !error && <HelperText>{helperText}</HelperText>}
 
-      {error && (
-        <p
-          className='text-sm font-medium'
-          style={{
-            color: formFieldDefaults.errorColor,
-            fontSize: formFieldDefaults.errorSize,
-          }}
-        >
-          {error}
-        </p>
-      )}
-    </div>
+      {error && <ErrorText>{error}</ErrorText>}
+    </FormGroup>
   );
 };
+
 export default FormField;

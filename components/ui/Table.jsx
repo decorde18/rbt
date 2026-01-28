@@ -78,37 +78,39 @@ const Table = ({
               color: tableDefaults.headerText,
             }}
           >
-            {columns.map((column, idx) => (
-              <th
-                key={idx}
-                className={cn(
-                  "px-4 py-3 text-left font-semibold",
-                  sortable && column.sortable !== false && "cursor-pointer"
-                )}
-                style={{
-                  ...(sortable &&
-                    column.sortable !== false && {
-                      ":hover": { opacity: 0.9 },
-                    }),
-                }}
-                onClick={() =>
-                  column.sortable !== false && handleSort(column.key)
-                }
-              >
-                <div className='flex items-center gap-2'>
-                  {column.label}
-                  {sortable && column.sortable !== false && (
-                    <span className='text-xs'>
-                      {sortConfig.key === column.key
-                        ? sortConfig.direction === "asc"
-                          ? "↑"
-                          : "↓"
-                        : "↕"}
-                    </span>
+            {columns
+              .filter((column) => !column.hideColumn)
+              .map((column, idx) => (
+                <th
+                  key={idx}
+                  className={cn(
+                    "px-4 py-3 text-left font-semibold",
+                    sortable && column.sortable !== false && "cursor-pointer"
                   )}
-                </div>
-              </th>
-            ))}
+                  style={{
+                    ...(sortable &&
+                      column.sortable !== false && {
+                        ":hover": { opacity: 0.9 },
+                      }),
+                  }}
+                  onClick={() =>
+                    column.sortable !== false && handleSort(column.key)
+                  }
+                >
+                  <div className='flex items-center gap-2'>
+                    {column.label}
+                    {sortable && column.sortable !== false && (
+                      <span className='text-xs'>
+                        {sortConfig.key === column.key
+                          ? sortConfig.direction === "asc"
+                            ? "↑"
+                            : "↓"
+                          : "↕"}
+                      </span>
+                    )}
+                  </div>
+                </th>
+              ))}
           </tr>
         </thead>
         <tbody>
@@ -137,13 +139,15 @@ const Table = ({
               }
               onClick={() => onRowClick && onRowClick(row)}
             >
-              {columns.map((column, colIdx) => (
-                <td key={colIdx} className='px-4 py-3'>
-                  {column.render
-                    ? column.render(row[column.key], row)
-                    : row[column.key]}
-                </td>
-              ))}
+              {columns
+                .filter((column) => !column.hideColumn)
+                .map((column, colIdx) => (
+                  <td key={colIdx} className='px-4 py-3'>
+                    {column.render
+                      ? column.render(row[column.key], row)
+                      : row[column.key]}
+                  </td>
+                ))}
             </tr>
           ))}
         </tbody>

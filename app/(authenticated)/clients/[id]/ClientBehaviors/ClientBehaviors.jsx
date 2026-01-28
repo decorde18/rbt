@@ -24,23 +24,24 @@ import {
 } from "@/lib/styled";
 import { getColumnsWithActions } from "@/lib/schemas/alternateColumnSchemas";
 import {
-  clientTableColumns,
-  clientValidationSchema,
-} from "@/lib/schemas/clientSchemas";
+  clientBehaviorTableColumns,
+  clientBehaviorValidationSchema,
+} from "@/lib/schemas/clientBehaviorSchemas";
 import { useRouter } from "next/navigation";
+import { getClientBehaviors } from "@/lib/db-queries";
 
-export default function ClientsPage() {
+export default function ClientBehaviorsPage({ clientId }) {
   const router = useRouter();
-  const [clients, setClients] = useState([]);
+  const [clientBehaviors, setClientBehaviors] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [editingClient, setEditingClient] = useState(null);
+  const [editingClientBehavior, setEditingClientBehavior] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Load clients from IndexedDB on mount
+  // Load clientBehaviors from IndexedDB on mount
   useEffect(() => {
-    loadClients();
+    loadClientBehaviors();
   }, []);
 
   // Auto-dismiss success messages
@@ -51,22 +52,23 @@ export default function ClientsPage() {
     }
   }, [successMessage]);
 
-  const loadClients = async () => {
+  const loadClientBehaviors = async () => {
     try {
       setLoading(true);
       setError(null);
-      const allClients = await db.clients.toArray();
-      setClients(allClients);
+      const allClientBehaviors = await getClientBehaviors(clientId);
+      setClientBehaviors(allClientBehaviors);
     } catch (err) {
-      setError("Failed to load clients. Please refresh the page.");
-      console.error("Error loading clients:", err);
+      setClientBehaviors([]);
+      // setError("Failed to load clientBehaviors. Please refresh the page.");
+      // console.error("Error loading clientBehaviors:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const closeForm = () => {
-    setEditingClient(null);
+    setEditingClientBehavior(null);
     setIsOpen(false);
   };
 
@@ -74,37 +76,34 @@ export default function ClientsPage() {
     try {
       setError(null);
 
-      // Convert grade to number and validate
-      const clientData = {
-        ...data,
-        grade: parseInt(data.grade, 10),
-      };
-
-      if (editingClient) {
-        // Update existing client
-        await db.clients.update(editingClient.id, clientData);
-        setSuccessMessage("Client updated successfully!");
+      if (editingClientBehavior) {
+        // Update existing clientBehavior
+        await db.clientBehaviorDefinitions.update(
+          editingClientBehavior.id,
+          data
+        );
+        setSuccessMessage("ClientBehavior updated successfully!");
       } else {
-        // Add new client
-        await db.clients.add(clientData);
-        setSuccessMessage("Client added successfully!");
+        // Add new clientBehavior
+        await db.clientBehaviorDefinitions.add(data);
+        setSuccessMessage("ClientBehavior added successfully!");
       }
 
-      // Reload clients from DB
-      await loadClients();
+      // Reload clientBehaviors from DB
+      await loadClientBehaviors();
       closeForm();
     } catch (err) {
       setError(
         `Failed to ${
-          editingClient ? "update" : "add"
-        } client. Please try again.`
+          editingClientBehavior ? "update" : "add"
+        } clientBehavior. Please try again.`
       );
-      console.error("Error saving client:", err);
+      console.error("Error saving clientBehavior:", err);
     }
   };
 
   const handleEdit = (row) => {
-    setEditingClient(row);
+    setEditingClientBehavior(row);
     setIsOpen(true);
   };
 
@@ -119,20 +118,18 @@ export default function ClientsPage() {
 
     try {
       setError(null);
-      await db.clients.delete(row.id);
-      setSuccessMessage("Client deleted successfully!");
-      await loadClients();
+      await db.clientBehaviorDefinitions.delete(row.id);
+      setSuccessMessage("ClientBehavior deleted successfully!");
+      await loadClientBehaviors();
     } catch (err) {
-      setError("Failed to delete client. Please try again.");
-      console.error("Error deleting client:", err);
+      setError("Failed to delete clientBehavior. Please try again.");
+      console.error("Error deleting clientBehavior:", err);
     }
   };
-  const handleRowClick = (row) => {
-    router.push(`/clients/${row.id}`);
-  };
+
   // Get table columns with action handlers
   const tableColumns = [
-    ...clientTableColumns,
+    ...clientBehaviorTableColumns,
     ...getColumnsWithActions(handleEdit, handleDelete),
   ];
 
@@ -141,7 +138,7 @@ export default function ClientsPage() {
       <PageContainer>
         <Card>
           <p style={{ textAlign: "center", color: "#6b7280" }}>
-            Loading clients...
+            Loading clientBehaviors...
           </p>
         </Card>
       </PageContainer>
@@ -149,11 +146,11 @@ export default function ClientsPage() {
   }
 
   return (
-    <PageContainer>
+    <>
       <Card>
         <CardHeader>
-          <CardTitle>Client List</CardTitle>
-          <Button onClick={() => setIsOpen(true)}>Add Client</Button>
+          <CardTitle>Client Behavior List</CardTitle>
+          <Button onClick={() => setIsOpen(true)}>Add Client Behavior</Button>
         </CardHeader>
 
         {/* Success Message */}
@@ -163,20 +160,19 @@ export default function ClientsPage() {
         {error && <Alert variant='error'>{error}</Alert>}
 
         {/* Empty State */}
-        {clients.length === 0 ? (
+        {clientBehaviors.length === 0 ? (
           <EmptyState>
-            <EmptyStateTitle>No clients yet</EmptyStateTitle>
+            <EmptyStateTitle>No clientBehaviors yet</EmptyStateTitle>
             <EmptyStateDescription>
-              Click &quot;Add Client&quot; to get started
+              Click &quot;Add ClientBehavior&quot; to get started
             </EmptyStateDescription>
           </EmptyState>
         ) : (
           <Table
             columns={tableColumns}
-            data={clients}
+            data={clientBehaviors}
             striped
             sortable
-            onRowClick={handleRowClick}
           />
         )}
       </Card>
@@ -185,19 +181,23 @@ export default function ClientsPage() {
         <Modal
           isOpen={isOpen}
           onClose={closeForm}
-          title={editingClient ? "Edit Client" : "Add A Client"}
+          title={
+            editingClientBehavior
+              ? "Edit Client Behavior"
+              : "Add A Client Behavior"
+          }
           size='md'
         >
           <Form
             onSubmit={onSubmit}
-            validationSchema={clientValidationSchema}
+            validationSchema={clientBehaviorValidationSchema}
             spacing='normal'
-            initialValues={editingClient || {}}
+            initialValues={editingClientBehavior || { clientId }}
           >
             {({ values, handleChange, isSubmitting }) => (
               <>
                 <Grid gap='1rem'>
-                  {clientTableColumns.map((column) => (
+                  {clientBehaviorTableColumns.map((column) => (
                     <GridColumn key={column.key} span={column.formCol || 12}>
                       <FormField
                         htmlFor={column.key}
@@ -228,9 +228,9 @@ export default function ClientsPage() {
                   >
                     {isSubmitting
                       ? "Saving..."
-                      : editingClient
-                      ? "Update Client"
-                      : "Save Client"}
+                      : editingClientBehavior
+                      ? "Update Client Behavior"
+                      : "Save Client Behavior"}
                   </Button>
                   <Button type='button' variant='neutral' onClick={closeForm}>
                     Cancel
@@ -241,6 +241,6 @@ export default function ClientsPage() {
           </Form>
         </Modal>
       )}
-    </PageContainer>
+    </>
   );
 }

@@ -11,6 +11,7 @@ import { checkboxVariants, checkboxDefaults } from "@/lib/componentConfig";
 const Checkbox = ({
   variant = checkboxDefaults.variant,
   size = checkboxDefaults.size,
+  fontSize = checkboxDefaults.fontSize,
   className,
   label,
   id,
@@ -28,6 +29,7 @@ const Checkbox = ({
         className={cn(
           checkboxDefaults.base,
           checkboxVariants.size[size],
+
           className
         )}
         style={{
@@ -37,7 +39,11 @@ const Checkbox = ({
         {...props}
       />
       {label && (
-        <label htmlFor={checkboxId} className='cursor-pointer'>
+        <label
+          htmlFor={checkboxId}
+          className='cursor-pointer'
+          style={{ fontSize: fontSize }}
+        >
           {label}
         </label>
       )}
